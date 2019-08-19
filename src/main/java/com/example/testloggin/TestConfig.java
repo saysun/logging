@@ -9,17 +9,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 @Configuration
 public class TestConfig {
-
-    @Bean
-    public CommonsRequestLoggingFilter requestLoggingFilter() {
-        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
-        loggingFilter.setIncludeClientInfo(true);
-        loggingFilter.setIncludeQueryString(true);
-        loggingFilter.setIncludePayload(true);
-        System.out.println("!!!");
-        return loggingFilter;
-    }
-
     @Bean
     public ServletRegistrationBean dispatcherRegistration() {
         return new ServletRegistrationBean(dispatcherServlet());
