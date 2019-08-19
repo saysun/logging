@@ -12,8 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 public class LoggableDispatcherServlet extends DispatcherServlet {
@@ -50,8 +53,8 @@ public class LoggableDispatcherServlet extends DispatcherServlet {
             System.out.println(x.getKey() + ":: "+ x.getValue()[0]);
         });
 
-//        System.out.println("&&&&&&&"+new java.util.Date((long)requestToCache.getSession().getLastAccessedTime()*1000));
-        System.out.println("&&&&&&&"+new Date(TimeUnit.MILLISECONDS.convert(requestToCache.getSession().getLastAccessedTime(), TimeUnit.MILLISECONDS)));
+        System.out.println("&&&&&&&"+new java.util.Date((long)requestToCache.getSession().getLastAccessedTime()*1000));
+        System.out.println("&&&&&&&" + getTimeString(requestToCache.getSession().getLastAccessedTime() * 1000));
         log.setResponse(getResponsePayload(responseToCache).toString().substring(0,10));
         if(requestToCache.getRequestURL().toString().contains("/y")){
             logger.info(log);
@@ -82,6 +85,14 @@ public class LoggableDispatcherServlet extends DispatcherServlet {
         responseWrapper.copyBodyToResponse();
     }
 
+
+    String getTimeString (Long timeSTamp){
+        Date date = new Date(timeSTamp);
+        DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
+        formatter.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        String dateFormatted = formatter.format(date);
+        return dateFormatted;
+    }
 
     private class LogMessage{
 
